@@ -1,12 +1,13 @@
 const { noteModel, userModel } = require("../model");
-const parseString = require("xml2js").parseString;
+// const parseString = require("xml2js").parseString;
 
 const handleAddNote = async (req, res) => {
-  const { title, content, userId } = req.body;
-  if (!title) return res.status(400).json({ message: "title cannot be empty" });
+  //removing title as required for temporary
+  const { content, userId } = req.body;
+  if (!content)
+    return res.status(400).json({ message: "content cannot be empty" });
   try {
     const note = await noteModel.create({
-      title,
       content,
       userId,
     });
@@ -33,7 +34,7 @@ const handleGetNotes = async (req, res) => {
 };
 
 const handleDeleteNote = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.body; //changed from params to body
   if (id) {
     try {
       const deletedNote = await noteModel.findByIdAndDelete(id);

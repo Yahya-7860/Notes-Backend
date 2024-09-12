@@ -20,10 +20,14 @@ const login = async (req, res) => {
       id: dbUser.id,
       username: dbUser.username,
     };
-    const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "10m" });
-    res
-      .status(200)
-      .json({ Message: "User Found, Successfully Logged in", token });
+    const token = jwt.sign(payload, JWT_SECRET_KEY);
+    const userId = dbUser.id;
+    res.status(200).json({
+      Message: "User Found, Successfully Logged in",
+      token,
+      userId,
+      username,
+    });
   } catch (error) {
     res.status(401).json({ Message: "Authentication failed" });
   }
