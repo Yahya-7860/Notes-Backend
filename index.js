@@ -11,7 +11,7 @@ const app = express();
 const { PswHashing, jwtAuthentication } = require("./middleware");
 const cors = require("cors");
 
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 const dbUrl = process.env.DATABASE_URL;
 
 const dbConnection = async () => {
