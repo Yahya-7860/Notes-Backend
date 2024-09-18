@@ -30,7 +30,8 @@ app.listen(port, () => {
 
 app.use(
   cors({
-    origin: "https://notes-backend-6fbw.onrender.com",
+    origin:
+      "https://66eabe1d2935226ae3afdeea--inquisitive-cobbler-4e4967.netlify.app",
   })
 );
 
