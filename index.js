@@ -28,12 +28,23 @@ app.listen(port, () => {
   console.log(`Server started listening at ${port}`);
 });
 
-app.use(
-  cors({
-    origin:
-      "https://66eabe1d2935226ae3afdeea--inquisitive-cobbler-4e4967.netlify.app",
-  })
-);
+const allowedOrigins = [
+  "https://66eabe1d2935226ae3afdeea--inquisitive-cobbler-4e4967.netlify.app",
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 app.use("/user", loginRouter);
