@@ -28,7 +28,11 @@ app.listen(port, () => {
   console.log(`Server started listening at ${port}`);
 });
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://notes-backend-6fbw.onrender.com",
+  })
+);
 
 app.use(
   cors({
