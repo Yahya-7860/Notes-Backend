@@ -34,12 +34,6 @@ app.use(
       "https://66eabe1d2935226ae3afdeea--inquisitive-cobbler-4e4967.netlify.app",
   })
 );
-
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
 app.use(express.json());
 
 app.use("/user", loginRouter);
