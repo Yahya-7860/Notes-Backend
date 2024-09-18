@@ -1,5 +1,10 @@
 require("dotenv").config();
-const { notesRouter, registerRouter, loginRouter } = require("./routes");
+const {
+  notesRouter,
+  registerRouter,
+  loginRouter,
+  userDltRouter,
+} = require("./routes");
 const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
@@ -35,3 +40,4 @@ app.use(express.json());
 app.use("/user", loginRouter);
 app.use("/user", PswHashing, registerRouter);
 app.use("/note", jwtAuthentication, notesRouter);
+app.use("/profile", userDltRouter);

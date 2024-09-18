@@ -1,13 +1,11 @@
-const { noteModel, userModel } = require("../model");
-// const parseString = require("xml2js").parseString;
+const { noteModel } = require("../model");
 
 const handleAddNote = async (req, res) => {
-  //removing title as required for temporary
-  const { content, userId } = req.body;
-  if (!content)
-    return res.status(400).json({ message: "content cannot be empty" });
+  const { title, content, userId } = req.body;
+  if (!title) return res.status(400).json({ message: "title cannot be empty" });
   try {
     const note = await noteModel.create({
+      title,
       content,
       userId,
     });
@@ -22,7 +20,7 @@ const handleAddNote = async (req, res) => {
 const handleGetNotes = async (req, res) => {
   try {
     const notes = await noteModel.find({ userId: req.userid });
-    if (notes.length === 0) {
+    if (!notes.length) {
       return res.status(200).json({ Message: "No notes found" });
     }
     res.json(notes);
@@ -34,7 +32,7 @@ const handleGetNotes = async (req, res) => {
 };
 
 const handleDeleteNote = async (req, res) => {
-  const { id } = req.body; //changed from params to body
+  const { id } = req.query;
   if (id) {
     try {
       const deletedNote = await noteModel.findByIdAndDelete(id);
@@ -50,28 +48,30 @@ const handleDeleteNote = async (req, res) => {
         .json({ message: "An error occurred while deleting the note", error });
     }
   } else {
-    res.status(404).send("Please provide id");
+    res.status(404).json({ Message: "Please provide id" });
   }
 };
 
 const handleUpdateNote = async (req, res) => {
-  const { content } = req.body;
-  const { id } = req.params;
+  const { title, content } = req.body;
+  const { id } = req.query;
 
-  if (id && content) {
-    try {
-      const Note = await noteModel.findByIdAndUpdate(id, { content: content });
-      if (!Note) {
-        return res.status(404).json({ Message: "Note not found" });
-      }
-      res.status(200).json({ Message: "Note updated Successfully" });
-    } catch (error) {
-      res
-        .status(500)
-        .json({ message: "An error occurred while updating the note", error });
+  try {
+    const Note = await noteModel.findByIdAndUpdate(
+      id,
+      {
+        title: title,
+        content: content,
+      },
+      { new: true }
+    );
+    if (Note) {
+      return res.status(200).json({ Message: "Updated", Note });
     }
-  } else {
-    res.status(404).send("Please provide title and newcontent both");
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "An error occurred while updating the note", error });
   }
 };
 
