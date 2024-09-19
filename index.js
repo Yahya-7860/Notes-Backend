@@ -28,7 +28,7 @@ app.listen(port, () => {
   console.log(`Server started listening at ${port}`);
 });
 
-const allowedOrigins = ["https://inquisitive-cobbler-4e4967.netlify.app"];
+const allowedOrigins = ["https://ephemeral-syrniki-90a26e.netlify.app"];
 
 const corsOptions = {
   origin: function (origin, callback) {
