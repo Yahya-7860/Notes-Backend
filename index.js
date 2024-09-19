@@ -28,9 +28,7 @@ app.listen(port, () => {
   console.log(`Server started listening at ${port}`);
 });
 
-const allowedOrigins = [
-  "https://66eabe1d2935226ae3afdeea--inquisitive-cobbler-4e4967.netlify.app",
-];
+const allowedOrigins = ["https://inquisitive-cobbler-4e4967.netlify.app"];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -43,9 +41,8 @@ const corsOptions = {
   credentials: true,
 };
 
-app.use(cors(corsOptions));
-
 app.use(express.json());
+app.use(cors(corsOptions));
 
 app.use("/user", loginRouter);
 app.use("/user", PswHashing, registerRouter);
